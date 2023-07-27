@@ -1,0 +1,18 @@
+[
+  {
+    "question": "What is the capital of France?",
+    "answer": "Paris",
+    "moreInfo": "Paris is the capital and largest city of France."
+  },
+  {
+    "question": "What is 2 + 2?",
+    "answer": "4",
+    "moreInfo": "Two plus two equals four."
+  },
+  {
+    "question": "What is the chemical symbol for water?",
+    "answer": "H2O",
+    "moreInfo": "The chemical symbol for water is H2O, indicating two hydrogen atoms and one oxygen atom."
+  }
+]
+
