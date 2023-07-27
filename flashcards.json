@@ -26,8 +26,8 @@
   },
   {
     "question": "What are some factors that affect cardiac output?",
-    "answer": "Cardiac output varies widely and is influenced by factors such as age, body size, level of body metabolism, and exercise."
-    "moreInfo": "Remeber that cardio output = heart rate * stroke volume, so is affected by those things as well"
+    "answer": "Cardiac output varies widely and is influenced by factors such as age, body size, level of body metabolism, and exercise.",
+    "moreInfo": "Remember that cardiac output = heart rate * stroke volume, so it is affected by those factors as well."
   },
   {
     "question": "What is cardiac index?",
@@ -36,8 +36,8 @@
   },
   {
     "question": "What controls cardiac output primarily?",
-    "answer": "Cardiac output is primarily controlled by venous return."
-    "moreInfo": "As well as heart rate and stroke volume"
+    "answer": "Cardiac output is primarily controlled by venous return.",
+    "moreInfo": "As well as heart rate and stroke volume."
   },
   {
     "question": "Explain the Frank-Starling Law of the Heart.",
@@ -46,12 +46,13 @@
   },
   {
     "question": "How does an increase in stretch affect heart rate?",
-    "answer": "An increase in stretch, such as in the sinus node or stretched right atrium, has a direct effect on the rhythmicity of the heart, leading to an increase in heart rate. The stretched right atrium also initiates a nervous reflex called the Bainbridge reflex, which involves the vasomotor center, sympathetic nerves, and vagus nerve, resulting in an increased heart rate."
-    "moreInfo": ""
+    "answer": "An increase in stretch, such as in the sinus node or stretched right atrium, has a direct effect on the rhythmicity of the heart, leading to an increase in heart rate. The stretched right atrium also initiates a nervous reflex called the Bainbridge reflex, which involves the vasomotor center, sympathetic nerves, and vagus nerve, resulting in an increased heart rate.",
+    "moreInfo": "Increase."
   },
   {
     "question": "How is venous return to the heart regulated?",
-    "answer": "Venous return to the heart is the sum of all the local blood flows through all the individual tissue segments. Tissue metabolism regulates most local blood flow, and cardiac output and oxygen consumption increase in parallel. All the local blood flows summate to form the venous return, and the heart automatically pumps this returning blood back into the arteries."
-    "moreInfo": "Many diseases can affect venous return"
+    "answer": "Venous return to the heart is the sum of all the local blood flows through all the individual tissue segments. Tissue metabolism regulates most local blood flow, and cardiac output and oxygen consumption increase in parallel. All the local blood flows summate to form the venous return, and the heart automatically pumps this returning blood back into the arteries.",
+    "moreInfo": "Many diseases can affect venous return."
   }
 ]
+
