@@ -21,15 +21,14 @@
       "answer": "Cardiac output is the quantity of blood pumped into the aorta each minute by the heart.",
       "moreInfo": [
         "Cardiac index increases approximately in proportion to the surface area of the body and reaches a peak age 10, gradually declining thereafter."
-      ]
+    
     },
     {
       "question": "What is venous return?",
       "answer": "Venous return is the quantity of blood flowing from the veins into the right atrium each minute. It must equal cardiac output.",
-      "moreInfo": [
-        "Venous return to the heart is the sum of all the local blood flows through individual tissue segments, and it is regulated by tissue metabolism.",
-        "Cardiac output and oxygen consumption increase in parallel with changes in local blood flow during venous return to the heart."
-      ]
+      "moreInfo": "Venous return to the heart is the sum of all the local blood flows through individual tissue segments, and it is regulated by tissue metabolism.",
+                  "Cardiac output and oxygen consumption increase in parallel with changes in local blood flow during venous return to the heart."
+      
     },
     {
       "question": "What are some factors that affect cardiac output?",
@@ -39,9 +38,8 @@
     {
       "question": "What is cardiac index?",
       "answer": "Cardiac index is the cardiac output per square meter of body surface area. It increases approximately in proportion to the surface area of the body, reaching a peak around age 10 and gradually declining thereafter.",
-      "moreInfo": [
-        "The Frank-Starling Law of the Heart explains the relationship between increased blood volume in the heart chambers and the resulting increase in cardiac muscle contraction force."
-      ]
+      "moreInfo": "The Frank-Starling Law of the Heart explains the relationship between increased blood volume in the heart chambers and the resulting increase in cardiac muscle contraction force."
+      
     },
     {
       "question": "What controls cardiac output primarily?",
