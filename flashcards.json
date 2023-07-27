@@ -14,5 +14,59 @@
     "answer": "H2O",
     "moreInfo": "The chemical symbol for water is H2O, indicating two hydrogen atoms and one oxygen atom."
   }
+  {
+  "questions": [
+    {
+      "question": "What is cardiac output?",
+      "answer": "Cardiac output is the quantity of blood pumped into the aorta each minute by the heart.",
+      "moreInfo": [
+        "Cardiac index increases approximately in proportion to the surface area of the body and reaches a peak age 10, gradually declining thereafter."
+      ]
+    },
+    {
+      "question": "What is venous return?",
+      "answer": "Venous return is the quantity of blood flowing from the veins into the right atrium each minute. It must equal cardiac output.",
+      "moreInfo": [
+        "Venous return to the heart is the sum of all the local blood flows through individual tissue segments, and it is regulated by tissue metabolism.",
+        "Cardiac output and oxygen consumption increase in parallel with changes in local blood flow during venous return to the heart."
+      ]
+    },
+    {
+      "question": "What are some factors that affect cardiac output?",
+      "answer": "Cardiac output varies widely and is influenced by factors such as age, body size, level of body metabolism, and exercise.",
+      "moreInfo": []
+    },
+    {
+      "question": "What is cardiac index?",
+      "answer": "Cardiac index is the cardiac output per square meter of body surface area. It increases approximately in proportion to the surface area of the body, reaching a peak around age 10 and gradually declining thereafter.",
+      "moreInfo": [
+        "The Frank-Starling Law of the Heart explains the relationship between increased blood volume in the heart chambers and the resulting increase in cardiac muscle contraction force."
+      ]
+    },
+    {
+      "question": "What controls cardiac output primarily?",
+      "answer": "Cardiac output is primarily controlled by venous return.",
+      "moreInfo": []
+    },
+    {
+      "question": "Explain the Frank-Starling Law of the Heart.",
+      "answer": "The Frank-Starling Law of the Heart states that when increased quantities of blood flow into the heart, the increased blood stretches the walls of the heart chambers. As a result of this stretch, the cardiac muscle contracts with increased force and empties from the expanded chambers the blood that has entered from the systemic circulation.",
+      "moreInfo": [
+        "The Bainbridge reflex is a nervous reflex involving the vasomotor center, sympathetic nerves, and vagus nerve, which leads to an increased heart rate when the right atrium is stretched."
+      ]
+    },
+    {
+      "question": "How does an increase in stretch affect heart rate?",
+      "answer": "An increase in stretch, such as in the sinus node or stretched right atrium, has a direct effect on the rhythmicity of the heart, leading to an increase in heart rate. The stretched right atrium also initiates a nervous reflex called the Bainbridge reflex, which involves the vasomotor center, sympathetic nerves, and vagus nerve, resulting in an increased heart rate.",
+      "moreInfo": []
+    },
+    {
+      "question": "How is venous return to the heart regulated?",
+      "answer": "Venous return to the heart is the sum of all the local blood flows through all the individual tissue segments. Tissue metabolism regulates most local blood flow, and cardiac output and oxygen consumption increase in parallel. All the local blood flows summate to form the venous return, and the heart automatically pumps this returning blood back into the arteries.",
+      "moreInfo": []
+    }
+  ]
+}
+
 ]
 
