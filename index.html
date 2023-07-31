@@ -330,6 +330,12 @@ updateFlashcard();
     // Function to handle the "Next" button
     function nextFlashcard() {
         if (currentFlashcardIndex < flashcardData.length - 1) {
+				// Stop the ongoing recognition if it's active
+				if (recognizing) {
+  					recognition.stop();
+  					recognizing = false;
+				}        
+        
             currentFlashcardIndex++;
             flipped = false; // Reset flipped state when moving to the next flashcard
             updateFlashcard();
@@ -341,6 +347,12 @@ updateFlashcard();
     // Function to handle the "Previous" button
     function previousFlashcard() {
         if (currentFlashcardIndex > 0) {
+				// Stop the ongoing recognition if it's active
+				if (recognizing) {
+  					recognition.stop();
+  					recognizing = false;
+				}         
+        
             currentFlashcardIndex--;
             flipped = false; // Reset flipped state when moving to the previous flashcard
             updateFlashcard();
