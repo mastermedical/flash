@@ -278,14 +278,12 @@
     .then((data) => {
       flashcardData = data; // Store the fetched data in the flashcardData variable
       shuffleArray(flashcardData); // Shuffle the flashcardData array before displaying the flashcards
-      updateFlashcard(); // Initial update of the flashcard content
+      currentFlashcardIndex = 0; // Reset the current flashcard index to the beginning
+      updateFlashcard(); // Initial update of the flashcard content after fetching the data
     })
     .catch((error) => {
       console.error('Error fetching flashcard data:', error);
     });
-    
-    // Call updateFlashcard once when the page loads
-updateFlashcard();
 
   // Array to keep track of the flipped state for each flashcard
   let flippedState = new Array(flashcardData.length).fill(false);
@@ -300,16 +298,16 @@ updateFlashcard();
     const answerContainer = document.querySelector('.answer');
 
     // Update the question text (remains always visible)
-    questionContainer.innerHTML = `<p>${question}</p>`;
+    questionContainer.innerHTML = `<h2>${question}</h2>`;
 
     // Update the answer text (initially hidden)
-    answerContainer.innerHTML = `<p>${answer}</p>`;
+    answerContainer.innerHTML = `<h2>${answer}</h2>`;
     answerContainer.style.display = 'none';
     flipped = false;
 
     // Enable or disable the "Flip" button based on the flippedState for this flashcard
     flipBtn.disabled = flippedState[currentFlashcardIndex];
-    
+
     // Update the font size of the voice output box to match the flashcard text
     const fontSize = window.getComputedStyle(questionContainer).getPropertyValue('font-size');
     voiceOutput.style.fontSize = fontSize;
@@ -327,39 +325,39 @@ updateFlashcard();
     }
   }
 
-    // Function to handle the "Next" button
-    function nextFlashcard() {
-        if (currentFlashcardIndex < flashcardData.length - 1) {
-				// Stop the ongoing recognition if it's active
-				if (recognizing) {
-  					recognition.stop();
-  					recognizing = false;
-				}        
-        
-            currentFlashcardIndex++;
-            flipped = false; // Reset flipped state when moving to the next flashcard
-            updateFlashcard();
-            moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
-            voiceOutput.textContent = ''; // Clear the voice output box
-        }
-    }
+  // Function to handle the "Next" button
+  function nextFlashcard() {
+    if (currentFlashcardIndex < flashcardData.length - 1) {
+      // Stop the ongoing recognition if it's active
+      if (recognizing) {
+        recognition.stop();
+        recognizing = false;
+      }
 
-    // Function to handle the "Previous" button
-    function previousFlashcard() {
-        if (currentFlashcardIndex > 0) {
-				// Stop the ongoing recognition if it's active
-				if (recognizing) {
-  					recognition.stop();
-  					recognizing = false;
-				}         
-        
-            currentFlashcardIndex--;
-            flipped = false; // Reset flipped state when moving to the previous flashcard
-            updateFlashcard();
-            moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
-            voiceOutput.textContent = ''; // Clear the voice output box
-        }
+      currentFlashcardIndex++;
+      flipped = false; // Reset flipped state when moving to the next flashcard
+      updateFlashcard();
+      moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
+      voiceOutput.textContent = ''; // Clear the voice output box
     }
+  }
+
+  // Function to handle the "Previous" button
+  function previousFlashcard() {
+    if (currentFlashcardIndex > 0) {
+      // Stop the ongoing recognition if it's active
+      if (recognizing) {
+        recognition.stop();
+        recognizing = false;
+      }
+
+      currentFlashcardIndex--;
+      flipped = false; // Reset flipped state when moving to the previous flashcard
+      updateFlashcard();
+      moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
+      voiceOutput.textContent = ''; // Clear the voice output box
+    }
+  }
 
   // Function to handle the "More info" button and display the overlay box
   function showMoreInfo() {
@@ -420,9 +418,6 @@ updateFlashcard();
 
   // Add event listener for "Speak answer" button when implementing voice recognition
   speakAnswerBtn.addEventListener('click', speakAnswer);
-
-  // Initial update of the flashcard content (moved inside the fetch callback)
-  // updateFlashcard();
 </script>
 
     
