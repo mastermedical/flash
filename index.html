@@ -283,6 +283,9 @@
     .catch((error) => {
       console.error('Error fetching flashcard data:', error);
     });
+    
+    // Call updateFlashcard once when the page loads
+updateFlashcard();
 
   // Array to keep track of the flipped state for each flashcard
   let flippedState = new Array(flashcardData.length).fill(false);
@@ -306,6 +309,10 @@
 
     // Enable or disable the "Flip" button based on the flippedState for this flashcard
     flipBtn.disabled = flippedState[currentFlashcardIndex];
+    
+    // Update the font size of the voice output box to match the flashcard text
+    const fontSize = window.getComputedStyle(questionContainer).getPropertyValue('font-size');
+    voiceOutput.style.fontSize = fontSize;
   }
 
   // Function to handle the "Flip" button
@@ -320,25 +327,27 @@
     }
   }
 
-  // Function to handle the "Next" button
-  function nextFlashcard() {
-    if (currentFlashcardIndex < flashcardData.length - 1) {
-      currentFlashcardIndex++;
-      flipped = false; // Reset flipped state when moving to the next flashcard
-      updateFlashcard();
-      moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
+    // Function to handle the "Next" button
+    function nextFlashcard() {
+        if (currentFlashcardIndex < flashcardData.length - 1) {
+            currentFlashcardIndex++;
+            flipped = false; // Reset flipped state when moving to the next flashcard
+            updateFlashcard();
+            moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
+            voiceOutput.textContent = ''; // Clear the voice output box
+        }
     }
-  }
 
-  // Function to handle the "Previous" button
-  function previousFlashcard() {
-    if (currentFlashcardIndex > 0) {
-      currentFlashcardIndex--;
-      flipped = false; // Reset flipped state when moving to the previous flashcard
-      updateFlashcard();
-      moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
+    // Function to handle the "Previous" button
+    function previousFlashcard() {
+        if (currentFlashcardIndex > 0) {
+            currentFlashcardIndex--;
+            flipped = false; // Reset flipped state when moving to the previous flashcard
+            updateFlashcard();
+            moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
+            voiceOutput.textContent = ''; // Clear the voice output box
+        }
     }
-  }
 
   // Function to handle the "More info" button and display the overlay box
   function showMoreInfo() {
