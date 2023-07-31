@@ -127,6 +127,7 @@
         .answer {
             display: none;
             font-size: 20px;
+            font-weight: normal;
         }
         
         /* Style for the overlay box */
@@ -206,11 +207,11 @@
                 <!-- Flashcard content (question and answer) goes here -->
                 <div class="question">
                     <!-- The question will always be visible -->
-                    <h2>Flashcard Question</h2>
+                    <h2 class="question-text">Flashcard Question</h2>
                 </div>
                 <div class="answer">
                     <!-- The answer will be hidden initially -->
-                    <h2>Flashcard Answer</h2>
+                    <h2> class="answer-text">Flashcard Answer<</h2>
                 </div>
             </div>
         </div>
@@ -373,31 +374,34 @@
     }
   }
 
-  // Function to handle the "Speak answer" button
-  function speakAnswer() {
-    if (!recognizing) {
-      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US'; // Set language to English (you can change it to another language if needed)
+// Function to handle the "Speak answer" button
+function toggleDictation() {
+  if (!recognizing) {
+    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US'; // Set language to English (you can change it to another language if needed)
 
-      recognition.onstart = () => {
-        recognizing = true;
-      };
+    recognition.onstart = () => {
+      recognizing = true;
+      speakAnswerBtn.textContent = 'Stop dictation'; // Change button text to 'Stop dictation' during voice recognition
+    };
 
-      recognition.onend = () => {
-        recognizing = false;
-      };
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        voiceOutput.textContent = transcript; // Update the voice output text
-      };
-
-      recognition.start();
-    } else {
-      recognition.stop();
+    recognition.onend = () => {
       recognizing = false;
-    }
+      speakAnswerBtn.textContent = 'Speak answer'; // Change button text back to 'Speak answer' when voice recognition stops
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      voiceOutput.textContent = transcript; // Update the voice output text
+    };
+
+    recognition.start();
+  } else {
+    recognition.stop();
+    recognizing = false;
+    speakAnswerBtn.textContent = 'Speak answer'; // Change button text back to 'Speak answer' when voice recognition stops
   }
+}
 
   // Function to update the voice output text
   function updateVoiceOutput(text) {
@@ -417,7 +421,7 @@
   previousBtn.addEventListener('click', previousFlashcard);
 
   // Add event listener for "Speak answer" button when implementing voice recognition
-  speakAnswerBtn.addEventListener('click', speakAnswer);
+  speakAnswerBtn.addEventListener('click', toggleDictation);
 </script>
 
     
