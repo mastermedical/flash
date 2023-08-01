@@ -536,8 +536,7 @@ function toggleDictation() {
       const markAnswerBtn = document.getElementById('markAnswerBtn');
       markAnswerBtn.disabled = recognizing || voiceOutput.textContent.trim() === '';
 
-      // Call markAnswer() when voice recognition receives a result
-      markAnswer();
+
     };
 
     recognition.start();
