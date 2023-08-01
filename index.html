@@ -327,8 +327,15 @@ body.dark-mode #dropdownBtn {
             <button id="flipBtn">Flip</button>
             <button id="nextBtn">Next</button>
             <button id="speakAnswerBtn">Speak answer</button>
-    			<button id="markAnswerBtn" onclick="markAnswer()">Mark answer</button>
+    			<button id="markAnswerBtn" onclick="markAnswer()" disabled>Mark answer</button>
         </div>
+        <div class="output-box">
+            <h2>Voice Output</h2>
+            <p id="voiceOutput"></p>
+        </div>
+        <!-- New div to display the result -->
+        <div class="output-box" id="resultContainer"></div>
+        
     </div>
     <footer>
         <p>&copy; 2023 Master Medical</p>
@@ -405,6 +412,15 @@ body.dark-mode #dropdownBtn {
     // Update the font size of the voice output box to match the flashcard text
     const fontSize = window.getComputedStyle(questionContainer).getPropertyValue('font-size');
     voiceOutput.style.fontSize = fontSize;
+    
+    // Clear the voice output and result when moving to a new flashcard
+    voiceOutput.textContent = '';
+    const resultContainer = document.getElementById('resultContainer');
+    resultContainer.textContent = '';
+
+    // Disable the "Mark answer" button for the new flashcard
+    const markAnswerBtn = document.getElementById('markAnswerBtn');
+    markAnswerBtn.disabled = true;
   }
 
   // Function to handle the "Flip" button
@@ -496,8 +512,10 @@ function toggleDictation() {
       voiceOutput.textContent = transcript; // Update the voice output text
       // Mark that an answer has been dictated
       answerDictated = true;
-      // Enable the "Mark answer" button when an answer has been dictated
-      document.getElementById('markAnswerBtn').disabled = false;
+
+    // Enable or disable the "Mark answer" button based on voice recognition state
+    const markAnswerBtn = document.getElementById('markAnswerBtn');
+    markAnswerBtn.disabled = recognizing || voiceOutput.textContent.trim() === '';
     };
 
     recognition.start();
@@ -575,7 +593,7 @@ function toggleDarkMode() {
         return similarity;
     }
 
-    // Function to mark the answer and provide feedback
+    // Function to handle the "Mark answer" button and provide feedback
     function markAnswer() {
         const dictatedAnswer = voiceOutput.textContent; // Assuming you already have the dictated answer
         const flashcardAnswer = flashcardData[currentFlashcardIndex].answer;
@@ -591,6 +609,9 @@ function toggleDarkMode() {
             // Mark the answer as incorrect
             console.log("Incorrect answer!");
         }
+    // Show the result in the result container
+    const resultContainer = document.getElementById('resultContainer');
+    resultContainer.textContent = result;
     }
 </script>
 
