@@ -396,7 +396,7 @@ body.dark-mode #dropdownBtn {
 
   // Function to update the flashcard content
   function updateFlashcard() {
-    const { question, answer } = flashcardData[currentFlashcardIndex];
+    const { question, answer, keywords } = flashcardData[currentFlashcardIndex]; // Get the keywords
     const questionContainer = document.querySelector('.question');
     const answerContainer = document.querySelector('.answer');
 
@@ -414,7 +414,7 @@ body.dark-mode #dropdownBtn {
     // Update the font size of the voice output box to match the flashcard text
     const fontSize = window.getComputedStyle(questionContainer).getPropertyValue('font-size');
     voiceOutput.style.fontSize = fontSize;
-    
+
     // Clear the voice output and result when moving to a new flashcard
     voiceOutput.textContent = '';
     const resultContainer = document.getElementById('resultContainer');
@@ -423,6 +423,10 @@ body.dark-mode #dropdownBtn {
     // Disable the "Mark answer" button for the new flashcard
     const markAnswerBtn = document.getElementById('markAnswerBtn');
     markAnswerBtn.disabled = true;
+
+    // Display the keywords for this flashcard (optional, you can customize how you want to show them)
+    const keywordContainer = document.getElementById('keywordContainer');
+    keywordContainer.textContent = `Keywords: ${keywords.join(', ')}`;
   }
 
   // Function to handle the "Flip" button
@@ -596,43 +600,48 @@ function toggleDarkMode() {
         return intersection.size / union.size;
     }
 
-    // Function to compare the dictated answer with the flashcard answer
-    function compareAnswers(dictatedAnswer, flashcardAnswer) {
-        const preprocessedDictatedAnswer = preprocessAnswer(dictatedAnswer);
-        const preprocessedFlashcardAnswer = preprocessAnswer(flashcardAnswer);
 
-        const dictatedTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedDictatedAnswer)));
-        const flashcardTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedFlashcardAnswer)));
+  // Function to check if the dictated answer contains keywords from the flashcard answer
+  function keywordMatching(dictatedAnswer, flashcardAnswer) {
+    const preprocessedDictatedAnswer = preprocessAnswer(dictatedAnswer);
+    const preprocessedFlashcardAnswer = preprocessAnswer(flashcardAnswer);
 
-        const similarity = jaccardSimilarity(dictatedTokens, flashcardTokens);
+    const dictatedTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedDictatedAnswer)));
+    const flashcardTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedFlashcardAnswer)));
 
-        return similarity;
-    }
+    // Check if any of the flashcard tokens exist in the dictated tokens
+    const hasMatchingKeywords = [...flashcardTokens].some(token => dictatedTokens.has(token));
 
-    // Function to handle the "Mark answer" button and provide feedback
-function markAnswer() {
+    return hasMatchingKeywords;
+  }
+
+  // Function to handle the "Mark answer" button and provide feedback
+  function markAnswer() {
     const dictatedAnswer = voiceOutput.textContent; // Assuming you already have the dictated answer
-    const flashcardAnswer = flashcardData[currentFlashcardIndex].answer;
+    const { answer, keywords } = flashcardData[currentFlashcardIndex]; // Get the answer and keywords
 
-    const similarityThreshold = 0.5; // Set your desired threshold here
+    // Convert the dictated answer and keywords to lowercase for case-insensitive matching
+    const preprocessedDictatedAnswer = dictatedAnswer.trim().toLowerCase();
+    const preprocessedKeywords = keywords.map(keyword => keyword.toLowerCase());
 
-    const similarity = compareAnswers(dictatedAnswer, flashcardAnswer);
+    // Check if the dictated answer contains any of the keywords
+    const isAnswerCorrect = preprocessedKeywords.some(keyword => preprocessedDictatedAnswer.includes(keyword));
 
     let result;
 
-    if (similarity >= similarityThreshold) {
-        // Mark the answer as correct
-        result = "Correct answer!";
+    if (isAnswerCorrect) {
+      // Mark the answer as correct
+      result = "Correct answer!";
     } else {
-        // Mark the answer as incorrect
-        result = "Incorrect answer!";
+      // Mark the answer as incorrect
+      result = "Incorrect answer!";
     }
 
     // Show the result in the result container
     const resultContainer = document.getElementById('resultContainer');
     resultContainer.textContent = result;
+  }
 
-}
 
 // Function for timer
 let remainingTime = 10; // Initial time limit in seconds
