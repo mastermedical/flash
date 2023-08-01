@@ -163,6 +163,63 @@
         cursor: pointer;
     }
     
+    /* Styles for the drop-down menu */
+		.dropdown-menu {
+    		position: relative;
+    		display: inline-block;
+    		margin-right: 10px;
+}
+
+		/* Style the drop-down button */
+		#dropdownBtn {
+    		background: none;
+    		border: none;
+    		font-size: 24px;
+    		cursor: pointer;
+}
+
+		/* Style the drop-down content (the options) */
+		.dropdown-content {
+    		display: none;
+    		position: absolute;
+    		top: 100%;
+    		right: 0;
+    		background-color: #f9f9f9;
+    		min-width: 160px;
+    		padding: 12px 16px;
+    		z-index: 1;
+    		border-radius: 5px;
+    		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+		/* Show the drop-down content when the drop-down button is hovered over */
+		.dropdown-menu:hover .dropdown-content {
+    		display: block;
+}
+
+/* Styles for dark mode */
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode header {
+    background-color: #222;
+}
+
+body.dark-mode .zone-container {
+    border-top-color: #555;
+}
+
+body.dark-mode .zone-left {
+    background-color: #444;
+}
+
+body.dark-mode .zone-right {
+    background-color: #555;
+}
+
+    
     	/* Set initial font size for the flashcard text (question and answer) */
 .flashcard h2, .flashcard p {
     font-size: 4vw; /* Responsive font size based on viewport width */
@@ -197,8 +254,16 @@
 </head>
 <body>
     <header>
-        <h1>PACES Faces</h1>
-    </header>
+    <h1>PACES Faces</h1>
+    <div class="dropdown-menu">
+        <button id="dropdownBtn">&#9776;</button>
+        <div class="dropdown-content">
+            <!-- Options in the drop-down menu -->
+            <a href="#" id="darkModeOption">Dark Mode</a>
+        </div>
+    </div>
+</header>
+
 <main>
     <div class="zone-container">
         <div class="zone-left">
@@ -413,6 +478,15 @@ function toggleDictation() {
     const overlay = document.querySelector('.overlay');
     overlay.style.display = 'none';
   }
+  
+  // Add an event listener to the "Dark Mode" option in the drop-down menu
+document.getElementById('darkModeOption').addEventListener('click', toggleDarkMode);
+
+// Function to toggle dark mode
+function toggleDarkMode() {
+    const body = document.body;
+    body.classList.toggle('dark-mode');
+}
 
   // Attach event listeners to the buttons
   moreInfoBtn.addEventListener('click', showMoreInfo);
