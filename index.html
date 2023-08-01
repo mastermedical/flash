@@ -269,11 +269,6 @@ body.dark-mode #dropdownBtn {
         font-size: 24px; /* Maximum font size of 24 pixels */
     }
 }
-{
-    .flashcard h2, .flashcard p {
-        font-size: 24px; /* Maximum font size of 24 pixels */
-    }
-}
 
     </style>
 </head>
@@ -301,8 +296,9 @@ body.dark-mode #dropdownBtn {
                 </div>
                 <div class="answer">
                     <!-- The answer will be hidden initially -->
-                    <h2> class="answer-text">Flashcard Answer</h2>
+                    <h2 class="answer-text">Flashcard Answer</h2>
                 </div>
+                <div id="keywordContainer"></div> <!-- Add this line to create the keywordContainer element -->
                   <!-- Timer div goes here -->
   						<div id="timer">Time Remaining: <span id="timeRemaining">10</span> seconds
   						</div>
@@ -438,6 +434,9 @@ body.dark-mode #dropdownBtn {
       flippedState[currentFlashcardIndex] = true;
       moreInfoBtn.disabled = false; // Enable "More info" button
       flipBtn.disabled = true; // Disable "Flip" button for this flashcard
+      
+      // Start the timer when the user flips the flashcard
+      startTimer(); // Call the function to start the timer
     }
     // Stop the timer when the "Speak answer" button is pressed
       clearInterval(timerInterval);
