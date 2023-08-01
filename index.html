@@ -164,11 +164,14 @@
     }
     
     /* Styles for the drop-down menu */
-		.dropdown-menu {
-    		position: relative;
-    		display: inline-block;
+			.dropdown-menu {
+    		position: absolute;
+    		top: 50%; /* Change this to 50% to vertically center the menu */
+    		right: 1rem; /* Change this to set the menu position to the far right */
+   		 transform: translateY(-50%); /* Vertically center the menu using translateY */
+   		 display: inline-block;
     		margin-right: 10px;
-}
+	}
 
 		/* Style the drop-down button */
 		#dropdownBtn {
@@ -219,6 +222,28 @@ body.dark-mode .zone-right {
     background-color: #555;
 }
 
+body.dark-mode .zone-1 {
+	background-color: #3f3e40;
+}
+
+body.dark-mode #dropdownBtn {
+    color: #fff; /* Set the color to white in dark mode */
+}
+
+        /* Position the dropdown menu button in the top right corner of the header */
+        header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    position: relative; /* Add this line to set the header position to relative */
+}
+
+        .dropdown-menu-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     
     	/* Set initial font size for the flashcard text (question and answer) */
 .flashcard h2, .flashcard p {
@@ -289,6 +314,8 @@ body.dark-mode .zone-right {
             </div>
         </div>
     </div>
+    
+
 </main>
 
 
@@ -300,6 +327,7 @@ body.dark-mode .zone-right {
             <button id="flipBtn">Flip</button>
             <button id="nextBtn">Next</button>
             <button id="speakAnswerBtn">Speak answer</button>
+    			<button id="markAnswerBtn" onclick="markAnswer()">Mark answer</button>
         </div>
     </div>
     <footer>
@@ -391,39 +419,45 @@ body.dark-mode .zone-right {
     }
   }
 
-  // Function to handle the "Next" button
-  function nextFlashcard() {
-    if (currentFlashcardIndex < flashcardData.length - 1) {
-      // Stop the ongoing recognition if it's active
-      if (recognizing) {
-        recognition.stop();
-        recognizing = false;
-      }
-
-      currentFlashcardIndex++;
-      flipped = false; // Reset flipped state when moving to the next flashcard
-      updateFlashcard();
-      moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
-      voiceOutput.textContent = ''; // Clear the voice output box
+// Function to handle the "Next" button
+function nextFlashcard() {
+  if (currentFlashcardIndex < flashcardData.length - 1) {
+    // Stop the ongoing recognition if it's active
+    if (recognizing) {
+      recognition.stop();
+      recognizing = false;
     }
+
+    currentFlashcardIndex++;
+    flipped = false; // Reset flipped state when moving to the next flashcard
+    updateFlashcard();
+    moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
+    voiceOutput.textContent = ''; // Clear the voice output box
+    // Reset the "Mark answer" button state when moving to a different flashcard
+    answerDictated = false;
+    document.getElementById('markAnswerBtn').disabled = true;
   }
+}
 
-  // Function to handle the "Previous" button
-  function previousFlashcard() {
-    if (currentFlashcardIndex > 0) {
-      // Stop the ongoing recognition if it's active
-      if (recognizing) {
-        recognition.stop();
-        recognizing = false;
-      }
-
-      currentFlashcardIndex--;
-      flipped = false; // Reset flipped state when moving to the previous flashcard
-      updateFlashcard();
-      moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
-      voiceOutput.textContent = ''; // Clear the voice output box
+// Function to handle the "Previous" button
+function previousFlashcard() {
+  if (currentFlashcardIndex > 0) {
+    // Stop the ongoing recognition if it's active
+    if (recognizing) {
+      recognition.stop();
+      recognizing = false;
     }
+
+    currentFlashcardIndex--;
+    flipped = false; // Reset flipped state when moving to the previous flashcard
+    updateFlashcard();
+    moreInfoBtn.disabled = true; // Disable "More info" button until flipped again
+    voiceOutput.textContent = ''; // Clear the voice output box
+    // Reset the "Mark answer" button state when moving to a different flashcard
+    answerDictated = false;
+    document.getElementById('markAnswerBtn').disabled = true;
   }
+}
 
   // Function to handle the "More info" button and display the overlay box
   function showMoreInfo() {
@@ -453,11 +487,17 @@ function toggleDictation() {
     recognition.onend = () => {
       recognizing = false;
       speakAnswerBtn.textContent = 'Speak answer'; // Change button text back to 'Speak answer' when voice recognition stops
+      // Enable the "Mark answer" button if an answer has been dictated
+      document.getElementById('markAnswerBtn').disabled = !answerDictated;
     };
 
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       voiceOutput.textContent = transcript; // Update the voice output text
+      // Mark that an answer has been dictated
+      answerDictated = true;
+      // Enable the "Mark answer" button when an answer has been dictated
+      document.getElementById('markAnswerBtn').disabled = false;
     };
 
     recognition.start();
@@ -465,6 +505,8 @@ function toggleDictation() {
     recognition.stop();
     recognizing = false;
     speakAnswerBtn.textContent = 'Speak answer'; // Change button text back to 'Speak answer' when voice recognition stops
+    // Enable the "Mark answer" button if an answer has been dictated
+    document.getElementById('markAnswerBtn').disabled = !answerDictated;
   }
 }
 
@@ -496,6 +538,60 @@ function toggleDarkMode() {
 
   // Add event listener for "Speak answer" button when implementing voice recognition
   speakAnswerBtn.addEventListener('click', toggleDictation);
+  
+      // Function to preprocess the answer
+    function preprocessAnswer(answer) {
+        return answer.trim().toLowerCase();
+    }
+
+    // Function to tokenize the answer
+    function tokenizeAnswer(answer) {
+        return answer.split(/\s+/); // Split on whitespace to get individual words
+    }
+
+    // Function to remove stop words from the answer
+    function removeStopWords(tokens) {
+        const stopWords = ['a', 'an', 'the', 'is', 'in', 'and', 'on']; // Add more as needed
+        return tokens.filter(token => !stopWords.includes(token));
+    }
+
+    // Function to calculate Jaccard similarity between two sets
+    function jaccardSimilarity(setA, setB) {
+        const intersection = new Set([...setA].filter(token => setB.has(token)));
+        const union = new Set([...setA, ...setB]);
+        return intersection.size / union.size;
+    }
+
+    // Function to compare the dictated answer with the flashcard answer
+    function compareAnswers(dictatedAnswer, flashcardAnswer) {
+        const preprocessedDictatedAnswer = preprocessAnswer(dictatedAnswer);
+        const preprocessedFlashcardAnswer = preprocessAnswer(flashcardAnswer);
+
+        const dictatedTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedDictatedAnswer)));
+        const flashcardTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedFlashcardAnswer)));
+
+        const similarity = jaccardSimilarity(dictatedTokens, flashcardTokens);
+
+        return similarity;
+    }
+
+    // Function to mark the answer and provide feedback
+    function markAnswer() {
+        const dictatedAnswer = voiceOutput.textContent; // Assuming you already have the dictated answer
+        const flashcardAnswer = flashcardData[currentFlashcardIndex].answer;
+
+        const similarityThreshold = 0.5; // Set your desired threshold here
+
+        const similarity = compareAnswers(dictatedAnswer, flashcardAnswer);
+
+        if (similarity >= similarityThreshold) {
+            // Mark the answer as correct
+            console.log("Correct answer!");
+        } else {
+            // Mark the answer as incorrect
+            console.log("Incorrect answer!");
+        }
+    }
 </script>
 
     
