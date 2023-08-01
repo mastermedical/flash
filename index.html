@@ -509,7 +509,7 @@ function previousFlashcard() {
 function toggleDictation() {
   if (!recognizing) {
     recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US'; // Set language to English (you can change it to another language if needed)
+    recognition.lang = 'en-UK'; // Set language to English (you can change it to another language if needed)
 
     recognition.onstart = () => {
       recognizing = true;
@@ -523,6 +523,11 @@ function toggleDictation() {
       speakAnswerBtn.textContent = 'Speak answer'; // Change button text back to 'Speak answer' when voice recognition stops
       // Enable the "Mark answer" button if an answer has been dictated
       document.getElementById('markAnswerBtn').disabled = !answerDictated;
+      
+      // Call markAnswer() if an answer has been dictated and recognition stops without speech input
+      if (answerDictated && voiceOutput.textContent.trim() === '') {
+        markAnswer();
+      }
     };
 
     recognition.onresult = (event) => {
@@ -531,9 +536,11 @@ function toggleDictation() {
       // Mark that an answer has been dictated
       answerDictated = true;
 
-    // Enable or disable the "Mark answer" button based on voice recognition state
-    const markAnswerBtn = document.getElementById('markAnswerBtn');
-    markAnswerBtn.disabled = recognizing || voiceOutput.textContent.trim() === '';
+      // Enable or disable the "Mark answer" button based on voice recognition state
+      const markAnswerBtn = document.getElementById('markAnswerBtn');
+      markAnswerBtn.disabled = recognizing || voiceOutput.textContent.trim() === '';
+
+
     };
 
     recognition.start();
@@ -543,6 +550,11 @@ function toggleDictation() {
     speakAnswerBtn.textContent = 'Speak answer'; // Change button text back to 'Speak answer' when voice recognition stops
     // Enable the "Mark answer" button if an answer has been dictated
     document.getElementById('markAnswerBtn').disabled = !answerDictated;
+
+    // Call markAnswer() if recognition stops without speech input
+    if (answerDictated && voiceOutput.textContent.trim() === '') {
+      markAnswer();
+    }
   }
 }
 
