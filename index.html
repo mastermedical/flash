@@ -371,7 +371,7 @@ body.dark-mode #dropdownBtn {
   }
 
   // Fetch the flashcard data from the JSON file on GitHub
-  fetch('https://raw.githubusercontent.com/mastermedical/flash/main/flashcards.json')
+  fetch('https://raw.githubusercontent.com/mastermedical/flash/main/flashcardswithkeywords.json')
     .then((response) => response.json())
     .then((data) => {
       flashcardData = data; // Store the fetched data in the flashcardData variable
@@ -608,19 +608,20 @@ function toggleDarkMode() {
     }
 
 
-  // Function to check if the dictated answer contains keywords from the flashcard answer
-  function keywordMatching(dictatedAnswer, flashcardAnswer) {
-    const preprocessedDictatedAnswer = preprocessAnswer(dictatedAnswer);
-    const preprocessedFlashcardAnswer = preprocessAnswer(flashcardAnswer);
+// Function to check if the dictated answer contains keywords from the flashcard answer
+function keywordMatching(dictatedAnswer, flashcardAnswer) {
+  const preprocessedDictatedAnswer = preprocessAnswer(dictatedAnswer);
+  const preprocessedFlashcardAnswer = preprocessAnswer(flashcardAnswer);
 
-    const dictatedTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedDictatedAnswer)));
-    const flashcardTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedFlashcardAnswer)));
+  const dictatedTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedDictatedAnswer)));
+  const flashcardTokens = new Set(removeStopWords(tokenizeAnswer(preprocessedFlashcardAnswer)));
 
-    // Check if any of the flashcard tokens exist in the dictated tokens
-    const hasMatchingKeywords = [...flashcardTokens].some(token => dictatedTokens.has(token));
+  // Check if any of the dictated tokens exist in the flashcard tokens
+  const hasMatchingKeywords = [...dictatedTokens].some(token => flashcardTokens.has(token));
 
-    return hasMatchingKeywords;
-  }
+  return hasMatchingKeywords;
+}
+
 
   // Function to handle the "Mark answer" button and provide feedback
   function markAnswer() {
