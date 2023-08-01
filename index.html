@@ -435,6 +435,8 @@ body.dark-mode #dropdownBtn {
       moreInfoBtn.disabled = false; // Enable "More info" button
       flipBtn.disabled = true; // Disable "Flip" button for this flashcard
     }
+    // Stop the timer when the "Speak answer" button is pressed
+      clearInterval(timerInterval);
   }
 
 // Function to handle the "Next" button
@@ -635,11 +637,11 @@ function markAnswer() {
 }
 
 // Function for timer
-let remainingTime = 30; // Initial time limit in seconds
+let remainingTime = 10; // Initial time limit in seconds
 let timerInterval;
 
 function startTimer() {
-  remainingTime = 30; // Reset the remaining time to the initial value
+  remainingTime = 10; // Reset the remaining time to the initial value
   updateTimerDisplay(); // Update the timer display with the initial value
   timerInterval = setInterval(updateTimer, 1000); // Start the timer interval
 }
