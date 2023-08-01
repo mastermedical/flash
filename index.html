@@ -523,11 +523,7 @@ function toggleDictation() {
       speakAnswerBtn.textContent = 'Speak answer'; // Change button text back to 'Speak answer' when voice recognition stops
       // Enable the "Mark answer" button if an answer has been dictated
       document.getElementById('markAnswerBtn').disabled = !answerDictated;
-      
-      // Call markAnswer() if an answer has been dictated and recognition stops without speech input
-      if (answerDictated && voiceOutput.textContent.trim() === '') {
-        markAnswer();
-      }
+     
     };
 
     recognition.onresult = (event) => {
@@ -540,7 +536,8 @@ function toggleDictation() {
       const markAnswerBtn = document.getElementById('markAnswerBtn');
       markAnswerBtn.disabled = recognizing || voiceOutput.textContent.trim() === '';
 
-
+      // Call markAnswer() when voice recognition receives a result
+      markAnswer();
     };
 
     recognition.start();
