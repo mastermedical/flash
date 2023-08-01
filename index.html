@@ -590,27 +590,29 @@ function toggleDarkMode() {
     }
 
     // Function to handle the "Mark answer" button and provide feedback
-    function markAnswer() {
-        const dictatedAnswer = voiceOutput.textContent; // Assuming you already have the dictated answer
-        const flashcardAnswer = flashcardData[currentFlashcardIndex].answer;
+// Function to handle the "Mark answer" button and provide feedback
+function markAnswer() {
+    const dictatedAnswer = voiceOutput.textContent; // Assuming you already have the dictated answer
+    const flashcardAnswer = flashcardData[currentFlashcardIndex].answer;
 
-        const similarityThreshold = 0.5; // Set your desired threshold here
+    const similarityThreshold = 0.5; // Set your desired threshold here
 
-        const similarity = compareAnswers(dictatedAnswer, flashcardAnswer);
-        
-        let result;
+    const similarity = compareAnswers(dictatedAnswer, flashcardAnswer);
 
-        if (similarity >= similarityThreshold) {
-            // Mark the answer as correct
-            console.log("Correct answer!");
-        } else {
-            // Mark the answer as incorrect
-            console.log("Incorrect answer!");
-        }
+    let result;
+
+    if (similarity >= similarityThreshold) {
+        // Mark the answer as correct
+        result = "Correct answer!";
+    } else {
+        // Mark the answer as incorrect
+        result = "Incorrect answer!";
+    }
+
     // Show the result in the result container
     const resultContainer = document.getElementById('resultContainer');
     resultContainer.textContent = result;
-    }
+}
 </script>
 
     
