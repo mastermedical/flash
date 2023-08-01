@@ -301,7 +301,7 @@ body.dark-mode #dropdownBtn {
                 </div>
                 <div class="answer">
                     <!-- The answer will be hidden initially -->
-                    <h2> class="answer-text">Flashcard Answer<</h2>
+                    <h2> class="answer-text">Flashcard Answer</h2>
                 </div>
             </div>
         </div>
@@ -597,6 +597,8 @@ function toggleDarkMode() {
         const similarityThreshold = 0.5; // Set your desired threshold here
 
         const similarity = compareAnswers(dictatedAnswer, flashcardAnswer);
+        
+        let result;
 
         if (similarity >= similarityThreshold) {
             // Mark the answer as correct
