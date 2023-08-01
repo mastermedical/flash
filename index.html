@@ -303,6 +303,12 @@ body.dark-mode #dropdownBtn {
                     <!-- The answer will be hidden initially -->
                     <h2> class="answer-text">Flashcard Answer</h2>
                 </div>
+                  <!-- Timer div goes here -->
+  						<div id="timer">Time Remaining: <span id="timeRemaining">10</span> seconds
+  						</div>
+  						<div id="timeUpMessage" style="display: none;">Time's up! Marking answer as incorrect.
+  						</div>
+
             </div>
         </div>
         <div class="zone-right">
@@ -433,13 +439,17 @@ body.dark-mode #dropdownBtn {
 
 // Function to handle the "Next" button
 function nextFlashcard() {
+
   if (currentFlashcardIndex < flashcardData.length - 1) {
     // Stop the ongoing recognition if it's active
     if (recognizing) {
       recognition.stop();
       recognizing = false;
     }
-
+        // Start the timer when the user flips the flashcard
+      clearInterval(timerInterval); // Reset the timer interval
+      startTimer();
+      
     currentFlashcardIndex++;
     flipped = false; // Reset flipped state when moving to the next flashcard
     updateFlashcard();
@@ -449,6 +459,7 @@ function nextFlashcard() {
     answerDictated = false;
     document.getElementById('markAnswerBtn').disabled = true;
   }
+
 }
 
 // Function to handle the "Previous" button
@@ -459,7 +470,11 @@ function previousFlashcard() {
       recognition.stop();
       recognizing = false;
     }
-
+          
+      // Start the timer when the user flips the flashcard
+      clearInterval(timerInterval); // Reset the timer interval
+      startTimer();
+      
     currentFlashcardIndex--;
     flipped = false; // Reset flipped state when moving to the previous flashcard
     updateFlashcard();
@@ -469,6 +484,7 @@ function previousFlashcard() {
     answerDictated = false;
     document.getElementById('markAnswerBtn').disabled = true;
   }
+
 }
 
   // Function to handle the "More info" button and display the overlay box
@@ -494,6 +510,8 @@ function toggleDictation() {
     recognition.onstart = () => {
       recognizing = true;
       speakAnswerBtn.textContent = 'Stop dictation'; // Change button text to 'Stop dictation' during voice recognition
+      // Stop the timer when the "Speak answer" button is pressed
+      clearInterval(timerInterval);
     };
 
     recognition.onend = () => {
@@ -590,7 +608,6 @@ function toggleDarkMode() {
     }
 
     // Function to handle the "Mark answer" button and provide feedback
-// Function to handle the "Mark answer" button and provide feedback
 function markAnswer() {
     const dictatedAnswer = voiceOutput.textContent; // Assuming you already have the dictated answer
     const flashcardAnswer = flashcardData[currentFlashcardIndex].answer;
@@ -612,7 +629,38 @@ function markAnswer() {
     // Show the result in the result container
     const resultContainer = document.getElementById('resultContainer');
     resultContainer.textContent = result;
+    
+      // Move to the next flashcard and reset the timer
+		nextFlashcard();
 }
+
+// Function for timer
+let remainingTime = 30; // Initial time limit in seconds
+let timerInterval;
+
+function startTimer() {
+  remainingTime = 30; // Reset the remaining time to the initial value
+  updateTimerDisplay(); // Update the timer display with the initial value
+  timerInterval = setInterval(updateTimer, 1000); // Start the timer interval
+}
+
+function updateTimerDisplay() {
+  const timeRemainingElement = document.getElementById('timeRemaining');
+  timeRemainingElement.textContent = remainingTime;
+}
+
+function updateTimer() {
+  if (remainingTime > 0) {
+    remainingTime--;
+    updateTimerDisplay();
+  } else {
+    clearInterval(timerInterval); // Stop the timer interval when time runs out
+    // Here, you can implement the logic to mark the answer as incorrect due to timeout.
+    console.log("Time's up! Marking answer as incorrect.");
+  }
+}
+
+
 </script>
 
     
