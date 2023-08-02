@@ -1,4 +1,3 @@
-<script>
   const flashcard = document.querySelector('.flashcard');
   const moreInfoBtn = document.getElementById('moreInfoBtn');
   const previousBtn = document.getElementById('previousBtn');
@@ -329,4 +328,4 @@ function updateTimer() {
 }
 
 
-</script>
+
